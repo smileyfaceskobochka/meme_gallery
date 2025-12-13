@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Meme Gallery</title>
+  <link rel="icon" href="pics/handsome.png" type="image/png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container gallery-container">
+    <h1 class="title">Meme Gallery</h1>
+    <a href="/">Back to Upload</a>
+    <div id="gallery"></div>
+  </div>
+
+  <script>
+    const galleryDiv = document.getElementById('gallery');
+
+    function loadGallery() {
+      fetch('/gallery')
+        .then(res => res.json())
+        .then(images => {
+          galleryDiv.innerHTML = images.map(img => `
+            <div class="gallery-item">
+              <img src="${img.path}" alt="Meme">
+              <p><strong>${img.uploader_name}</strong></p>
+              <p>Votes: <span id="votes-${img.id}">${img.votes}</span></p>
+              <button onclick="vote(${img.id}, 1)">👍 Upvote</button>
+              <button onclick="vote(${img.id}, -1)">👎 Downvote</button>
+            </div>
+          `).join('');
+        })
+        .catch(err => console.error('Failed to load gallery:', err));
+    }
+
+    function vote(id, vote) {
+      fetch('/vote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, vote })
+      })
+      .then(res => {
+        if (res.ok) {
+          const votesSpan = document.getElementById(`votes-${id}`);
+          votesSpan.textContent = parseInt(votesSpan.textContent) + vote;
+        } else {
+          alert('Already voted');
+        }
+      })
+      .catch(err => console.error('Failed to vote:', err));
+    }
+
+    loadGallery();
+  </script>
+</body>
+</html>
