@@ -52,7 +52,22 @@ app.post("/vote", (req, res) => {
 });
 
 app.post("/", upload.single('meme'), (req, res) => {
-  if (!req.file) return res.status(400).send("No file");
+  if (!req.file) return res.status(400).send("No file uploaded");
+
+  // Check if file was fully uploaded
+  if (!req.file.size || req.file.size === 0) {
+    // Clean up empty file
+    fs.unlinkSync(req.file.path);
+    return res.status(400).send("Empty file uploaded");
+  }
+
+  // Basic image validation
+  const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+  if (!allowedTypes.includes(req.file.mimetype)) {
+    fs.unlinkSync(req.file.path);
+    return res.status(400).send("Invalid file type. Only images allowed.");
+  }
+
   const newImage = {
     id: Date.now(),
     path: 'uploads/' + req.file.filename,
