@@ -11,10 +11,16 @@ const handleSubmit = async (e) => {
   try {
     const res = await fetch('/', { method: 'POST', body: data });
     const text = await res.text();
-    responseBox.textContent = `Сервер ответил: ${text}`;
-    responseBox.classList.add('show');
-    form.reset();
-    setTimeout(() => loadBackgroundImages(), 1000);
+
+    if (res.ok) {
+      responseBox.textContent = `Сервер ответил: ${text}`;
+      responseBox.classList.add('show');
+      form.reset();
+      setTimeout(() => loadBackgroundImages(), 1000);
+    } else {
+      responseBox.textContent = `Ошибка сервера: ${text}`;
+      responseBox.classList.add('show');
+    }
   } catch (error) {
     responseBox.textContent = `Ошибка: ${error.message}`;
     responseBox.classList.add('show');
@@ -50,7 +56,9 @@ function loadBackgroundImages() {
           meme.style.top = positions[index].top + '%';
           meme.style.left = positions[index].left + '%';
           const randomImage = images[Math.floor(Math.random() * images.length)];
-          meme.innerHTML = `<img src="/${randomImage}" alt="Meme" style="width: 100%; height: 100%; object-fit: cover;">`;
+          // Add cache busting parameter
+          const cacheBust = Date.now();
+          meme.innerHTML = `<img src="/${randomImage}?t=${cacheBust}" alt="Meme" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'">`;
           meme.style.animationDelay = (Math.random() * 10) + 's';
           meme.style.animationDuration = (8 + Math.random() * 4) + 's';
         }

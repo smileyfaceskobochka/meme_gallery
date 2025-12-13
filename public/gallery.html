@@ -55,9 +55,10 @@
             return;
           }
 
+          const cacheBust = Date.now();
           galleryDiv.innerHTML = images.map(img => `
             <div class="gallery-item">
-              <img src="${img.path}" alt="Meme" data-image="${img.path}">
+              <img src="${img.path}?t=${cacheBust}" alt="Meme" data-image="${img.path}" onerror="this.src='/placeholder.png'">
               <p><strong>${img.uploader_name}</strong></p>
               <p style="font-size: 0.8rem; opacity: 0.9;">${img.uploader_email}</p>
               <p style="font-size: 1.1rem; margin: 10px 0;"><strong>🔥 Votes: <span id="votes-${img.id}">${img.votes}</span></strong></p>
@@ -138,13 +139,14 @@
 
           spinningMemes.forEach((meme, index) => {
             meme.style.display = 'block';
-            
+
             // Use pre-generated position
             meme.style.top = positions[index].top + '%';
             meme.style.left = positions[index].left + '%';
-            
+
             const randomImage = images[Math.floor(Math.random() * images.length)];
-            meme.innerHTML = `<img src="/${randomImage}" alt="Meme" style="width: 100%; height: 100%; object-fit: cover;">`;
+            const cacheBust = Date.now();
+            meme.innerHTML = `<img src="/${randomImage}?t=${cacheBust}" alt="Meme" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'">`;
             meme.style.animationDelay = (Math.random() * 10) + 's';
             meme.style.animationDuration = (8 + Math.random() * 4) + 's';
           });
@@ -160,7 +162,8 @@
       const modal = document.getElementById('imageModal');
       const modalImg = document.getElementById('modalImage');
       modal.classList.add('show');
-      modalImg.src = imagePath;
+      const cacheBust = Date.now();
+      modalImg.src = imagePath + '?t=' + cacheBust;
       document.body.style.overflow = 'hidden';
     }
 
