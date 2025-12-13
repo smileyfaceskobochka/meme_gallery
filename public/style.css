@@ -391,6 +391,52 @@ form {
   background: var(--accent-secondary);
 }
 
+/* Modal styles */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.modal.show {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+}
+
+.modal-content {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+  border: 2px solid var(--border-color);
+  box-shadow: 0 0 50px var(--glow-color);
+}
+
+.modal-close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  color: var(--text-primary);
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 1001;
+  transition: var(--transition-normal);
+}
+
+.modal-close:hover {
+  color: var(--accent-primary);
+  text-shadow: 0 0 10px var(--glow-color);
+}
+
 /* Accessibility styles */
 :focus-visible {
   outline: 2px solid var(--accent-primary);

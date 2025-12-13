@@ -1,0 +1,21 @@
+{
+  "name": "meme_gallery",
+  "version": "1.0.0",
+  "description": "A meme gallery web app",
+  "main": "server.js",
+  "scripts": {
+    "start": "bun run server.js",
+    "dev": "bun --hot run server.js",
+    "build": "echo 'No build step required'",
+    "prod": "NODE_ENV=production bun run server.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "multer": "^2.0.2",
+    "dotenv": "^17.2.3"
+  },
+  "devDependencies": {},
+  "keywords": ["meme", "gallery", "webapp"],
+  "author": "",
+  "license": "ISC"
+}

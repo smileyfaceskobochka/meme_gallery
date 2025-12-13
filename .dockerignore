@@ -1,0 +1,13 @@
+node_modules
+.git
+.gitignore
+README.md
+.env
+.nyc_output
+coverage
+.DS_Store
+*.log
+public/uploads/*
+!public/uploads/.gitkeep
+images.json
+votes.json
