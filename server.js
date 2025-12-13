@@ -2,9 +2,11 @@ const express = require("express");
 const path = require("path");
 const multer = require("multer");
 const fs = require("fs");
+require('dotenv').config();
 
 const app = express();
-const port = 8080;
+const port = process.env.PORT || 8080;
+const host = process.env.HOST || 'localhost';
 
 // Static files
 app.use(express.static(path.join(__dirname, "public")));
@@ -66,4 +68,4 @@ app.post("/", upload.single('meme'), (req, res) => {
 app.get("/", (req, res) => res.sendFile(path.join(__dirname, "public", "index.html")));
 app.get("/gallery.html", (req, res) => res.sendFile(path.join(__dirname, "public", "gallery.html")));
 
-app.listen(port, () => console.log(`Server on http://localhost:${port}`));
+app.listen(port, host, () => console.log(`Server on http://${host}:${port}`));
