@@ -148,7 +148,6 @@
             const cacheBust = Date.now();
             meme.innerHTML = `<img src="/${randomImage}?t=${cacheBust}" alt="Meme" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'">`;
             meme.style.animationDelay = (Math.random() * 10) + 's';
-            meme.style.animationDuration = (8 + Math.random() * 4) + 's';
           });
         })
         .catch(err => console.error('Failed to load background images:', err));
